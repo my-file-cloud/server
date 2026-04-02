@@ -2,3 +2,4 @@
 target
 Cargo.lock
 server.iml
+.env

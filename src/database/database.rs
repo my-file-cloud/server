@@ -5,7 +5,7 @@ use crate::model::session::Session;
 use crate::model::user::User;
 
 pub struct MySQLDatabaseConfig {
-    pub database_url: &'static str,
+    pub database_url: String,
     pub max_connections: u32,
 }
 
@@ -18,7 +18,7 @@ impl Database {
         
         let pool = sqlx::mysql::MySqlPoolOptions::new()
             .max_connections(config.max_connections)
-            .connect(config.database_url).await?;
+            .connect(&config.database_url).await?;
         
         Ok(Self{
             pool,

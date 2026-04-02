@@ -21,20 +21,20 @@ pub struct WithUserStorageState {
 }
 
 pub struct Storage<State = GlobalStorageState> {
-    pub root_directory_path: &'static Path,
+    pub root_directory_path: PathBuf,
     state: State
 }
 impl Storage {
-    pub fn new<P: AsRef<Path>>(root_directory_path: &'static P) -> Result<Self, InitStorageError> {
-        if !root_directory_path.as_ref().exists() {
+    pub fn new(root_directory_path: PathBuf) -> Result<Self, InitStorageError> {
+        if !root_directory_path.exists() {
             Self::setup_root_directory(&root_directory_path).map_err(InitStorageError::Io)?;
         }
-        if !root_directory_path.as_ref().is_dir() {
+        if !root_directory_path.is_dir() {
             return Err(InitStorageError::InvalidRootDirectory(String::from("root directory is not a directory")))
         }
 
         Ok(Self {
-            root_directory_path: root_directory_path.as_ref(),
+            root_directory_path,
             state: GlobalStorageState,
         })
     }
@@ -56,7 +56,7 @@ impl<T> Storage<T> {
     pub fn with_user(&self, user_id: ID<User>) -> Storage<WithUserStorageState> {
         Storage {
             state: WithUserStorageState { user_id },
-            root_directory_path: self.root_directory_path,
+            root_directory_path: self.root_directory_path.clone(),
         }
     }
     
