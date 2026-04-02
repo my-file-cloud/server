@@ -1,0 +1,20 @@
+use std::io;
+use std::sync::Arc;
+use tokio::net::TcpListener;
+use tracing::info;
+
+mod router;
+pub mod app_state;
+mod jwt;
+
+use crate::webserver::app_state::AppState;
+
+pub async fn start(port: u16, app_state: AppState) -> Result<(), io::Error> {
+    info!("Starting webserver on http://localhost:{}", port);
+    
+    let state = Arc::new(app_state);
+    let router = router::setup_router(state);
+    let listener = TcpListener::bind(format!("0.0.0.0:{port}")).await?;
+    
+    axum::serve(listener, router).await
+}
