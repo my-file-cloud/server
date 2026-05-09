@@ -3,9 +3,9 @@ use std::sync::Arc;
 use tokio::net::TcpListener;
 use tracing::info;
 
-mod router;
+pub mod router;
 pub mod app_state;
-mod jwt;
+pub mod jwt;
 
 use crate::webserver::app_state::AppState;
 

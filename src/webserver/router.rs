@@ -9,7 +9,7 @@ use crate::webserver::app_state::AppState;
 use tower_http::cors;
 use my_file_cloud_api::{ApiErrorBody, ApiErrorMessage};
 
-mod auth;
+pub mod auth;
 mod dashboard;
 mod browse;
 mod upload;
