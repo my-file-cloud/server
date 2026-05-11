@@ -27,10 +27,4 @@ WORKDIR /app
 
 COPY --from=builder /build/target/release/server ./server
 
-RUN mkdir -p /data/cloud /data/logs \
-    && useradd -r -s /bin/false appuser \
-    && chown -R appuser:appuser /app /data/cloud /data/logs
-
-USER appuser
-
 CMD ["./server"]
