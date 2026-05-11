@@ -1,0 +1,71 @@
+# Required .env file:
+#
+#   MYSQL_ROOT_PASSWORD=<strong password>
+#   MYSQL_DATABASE=<database name>
+#   MYSQL_USER=<database user>
+#   MYSQL_PASSWORD=<database user password>
+#
+#   DATABASE_MODE=<database mode ("mock" / "mysql")>
+#   DB_MAX_CONNECTIONS=5
+#   CLOUD_ROOT_DIRECTORY=/app/.cloud-root
+#   LOG_DIRECTORY=/app/logs
+#   WEBSERVER_PORT=3000
+#   JWT_SECRET=<jwt secret>
+#
+# Note: DATABASE_URL is assembled here from the MySQL variables —
+#       there is no need to define it in .env.
+
+services:
+
+  migrate:
+    image: ghcr.io/my-file-cloud/database:latest
+    restart: on-failure
+    environment:
+      DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  server:
+    image: ghcr.io/my-file-cloud/server:latest
+    restart: unless-stopped
+    ports:
+      - "${WEBSERVER_PORT}:${WEBSERVER_PORT}"
+    volumes:
+      - cloud-storage:${CLOUD_ROOT_DIRECTORY}
+      - logs:${LOG_DIRECTORY}
+    environment:
+      DATABASE_MODE: ${DATABASE_MODE}
+      DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
+      DB_MAX_CONNECTIONS: ${DB_MAX_CONNECTIONS}
+      CLOUD_ROOT_DIRECTORY: ${CLOUD_ROOT_DIRECTORY}
+      LOG_DIRECTORY: ${LOG_DIRECTORY}
+      WEBSERVER_PORT: ${WEBSERVER_PORT}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  db:
+    image: mysql:9
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysql -u$$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE -e 'SELECT 1' --silent 2>/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  cloud-storage:
+  db-data:
+  logs:
