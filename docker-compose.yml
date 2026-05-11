@@ -12,6 +12,7 @@
 #   WEBSERVER_PORT=3000
 #   CLIENT_PORT=80
 #   JWT_SECRET=<jwt secret>
+#   CLIENT_ORIGIN=<website origin for CORS, e.g. https://example.com>
 #
 # Note: DATABASE_URL is assembled here from the MySQL variables —
 #       there is no need to define it in .env.
@@ -49,6 +50,7 @@ services:
       LOG_DIRECTORY: ${LOG_DIRECTORY}
       WEBSERVER_PORT: ${WEBSERVER_PORT}
       JWT_SECRET: ${JWT_SECRET}
+      CLIENT_ORIGIN: ${CLIENT_ORIGIN}
     depends_on:
       db:
         condition: service_healthy

@@ -9,11 +9,11 @@ pub mod jwt;
 
 use crate::webserver::app_state::AppState;
 
-pub async fn start(port: u16, app_state: AppState) -> Result<(), io::Error> {
+pub async fn start(port: u16, app_state: AppState, client_origin: String) -> Result<(), io::Error> {
     info!("Starting webserver on http://localhost:{}", port);
     
     let state = Arc::new(app_state);
-    let router = router::setup_router(state);
+    let router = router::setup_router(state, client_origin);
     let listener = TcpListener::bind(format!("0.0.0.0:{port}")).await?;
     
     axum::serve(listener, router).await

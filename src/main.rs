@@ -30,7 +30,7 @@ async fn main() {
         database,
     };
     
-    match webserver::start(config.webserver_port, app_state).await {
+    match webserver::start(config.webserver_port, app_state, config.client_origin).await {
         Err(err) => panic!("Failed to start webserver: {err}"),
         _ => {},
     };

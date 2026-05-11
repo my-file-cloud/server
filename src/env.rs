@@ -8,6 +8,7 @@ pub struct MyFileCloudServerConfig {
     pub webserver_port: u16,
     pub jwt_secret: String,
     pub database_config: DatabaseConfig,
+    pub client_origin: String,
 }
 
 pub fn load_config() -> MyFileCloudServerConfig {
@@ -22,7 +23,7 @@ pub fn load_config() -> MyFileCloudServerConfig {
                 .expect("DATABASE_URL missing"),
 
             max_connections: env::var("DB_MAX_CONNECTIONS")
-                .unwrap_or_else(|_| "5".to_string())
+                .unwrap()
                 .parse()
                 .expect("DB_MAX_CONNECTIONS must be a number"),
         }),
@@ -35,8 +36,9 @@ pub fn load_config() -> MyFileCloudServerConfig {
     MyFileCloudServerConfig {
         cloud_root_directory: env::var("CLOUD_ROOT_DIRECTORY").unwrap().into(),
         log_directory: env::var("LOG_DIRECTORY").unwrap(),
-        webserver_port: env::var("WEBSERVER_PORT").unwrap_or("3000".into()).parse().unwrap(),
+        webserver_port: env::var("WEBSERVER_PORT").unwrap().parse().unwrap(),
         jwt_secret: env::var("JWT_SECRET").unwrap(),
+        client_origin: env::var("CLIENT_ORIGIN").unwrap(),
         database_config,
     }
 }

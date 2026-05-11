@@ -63,7 +63,7 @@ impl<T: Into<StatusCode>> IntoResponse for ApiError<T> {
     }
 }
 
-pub fn setup_router(state: Arc<AppState>) -> Router {
+pub fn setup_router(state: Arc<AppState>, client_origin: String) -> Router {
     Router::new()
         .route("/health", get(|| async {"Webserver is running"}))
         .merge(auth::setup_router())
@@ -74,13 +74,17 @@ pub fn setup_router(state: Arc<AppState>) -> Router {
         .merge(create_directory::setup_router())
         
         .layer(CookieManagerLayer::new())
-        .layer(setup_cors())
+        .layer(setup_cors(client_origin))
         .with_state(state)
 }
 
-fn setup_cors() -> cors::CorsLayer {
+fn setup_cors(client_origin: String) -> cors::CorsLayer {
+    let origin = client_origin
+        .parse::<HeaderValue>()
+        .unwrap_or_else(|_| panic!("CLIENT_ORIGIN '{client_origin}' is not a valid HTTP header value"));
+
     cors::CorsLayer::new()
-        .allow_origin("http://localhost:8080".parse::<HeaderValue>().expect("Failed to create HeaderValue"))
+        .allow_origin(origin)
         .allow_methods(cors::AllowMethods::list([
             Method::GET,
             Method::PUT,
