@@ -1,5 +1,5 @@
 [package]
-name = "my-file-cloud-server"
+name = "server"
 version = "0.1.0"
 edition = "2024"
 
@@ -9,7 +9,7 @@ mock_db = []
 db = []
 
 [dependencies]
-my-file-cloud-api = { git = "https://github.com/my-file-cloud/api.git", tag = "v0.1.0" }
+api = { git = "https://github.com/my-file-cloud/api.git", tag = "v0.1.1" }
 axum = { version = "0.8", features = ["multipart"] }
 tokio = { version = "1", features = ["full"] }
 serde = { version = "1", features = ["derive"] }
@@ -29,6 +29,3 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter"] }
 tracing-appender = "0.2"
 dotenvy = "0.15"
-
-[patch."https://github.com/my-file-cloud/api.git"]
-my-file-cloud-api = { path = "../api" }

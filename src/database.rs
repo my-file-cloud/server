@@ -1,6 +1,6 @@
 use std::fmt;
 use std::fmt::{Debug, Formatter};
-use my_file_cloud_api::id::ID;
+use api::id::ID;
 use crate::model::user::User;
 use crate::model::session::Session;
 

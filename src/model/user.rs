@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use my_file_cloud_api::id::ID;
+use api::id::ID;
 
 #[derive(Debug, Clone, Deserialize, sqlx::FromRow)]
 pub struct User {

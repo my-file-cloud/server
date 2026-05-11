@@ -7,7 +7,7 @@ use serde::Serialize;
 use tower_cookies::CookieManagerLayer;
 use crate::webserver::app_state::AppState;
 use tower_http::cors;
-use my_file_cloud_api::{ApiErrorBody, ApiErrorMessage};
+use api::{ApiErrorBody, ApiErrorMessage};
 
 pub mod auth;
 mod dashboard;

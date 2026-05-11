@@ -4,7 +4,7 @@ use axum::http::StatusCode;
 use axum::response::IntoResponse;
 use tower_cookies::Cookies;
 use tracing::error;
-use my_file_cloud_api::route::auth::refresh::RefreshErrorKind;
+use api::route::auth::refresh::RefreshErrorKind;
 use crate::util;
 use crate::webserver::app_state::AppState;
 use crate::webserver::jwt;

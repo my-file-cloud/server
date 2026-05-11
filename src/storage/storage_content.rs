@@ -1,9 +1,8 @@
 use std::fs::{DirEntry, FileType};
 use std::{fmt, io};
 use std::fmt::{Formatter};
-use std::os::windows::fs::MetadataExt;
 use serde::{Deserialize, Serialize};
-use my_file_cloud_api::route::browse::{BrowseResponseDTO, StorageContentDTO, StorageContentTypeDTO};
+use api::route::browse::{BrowseResponseDTO, StorageContentDTO, StorageContentTypeDTO};
 
 #[derive(Serialize, Deserialize)]
 pub enum BrowseStorageContent {
@@ -84,7 +83,7 @@ impl TryFrom<DirEntry> for StorageContent {
                 name: value
                     .file_name()
                     .to_string_lossy().to_string(),
-                size: meta.file_size(),
+                size: meta.len(),
                 storage_content_type: value
                     .file_type().map_err(StorageContentFromDirEntryError::Io)?
                     .try_into().map_err(StorageContentFromDirEntryError::StorageContentTypeFromFileTypeFailure)?,

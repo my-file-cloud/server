@@ -6,7 +6,7 @@ use axum::{Router};
 use axum::http::StatusCode;
 use axum::response::IntoResponse;
 use axum::routing::post;
-use my_file_cloud_api::route::create_directory::CreateDirectoryErrorKind;
+use api::route::create_directory::CreateDirectoryErrorKind;
 use crate::storage::Storage;
 use crate::webserver::app_state::AppState;
 use crate::webserver::router::{ApiError, ApiErrorMessage};

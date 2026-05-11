@@ -5,7 +5,7 @@ use axum::{Json, Router};
 use axum::http::StatusCode;
 use axum::response::IntoResponse;
 use axum::routing::{delete, get};
-use my_file_cloud_api::route::browse::BrowseErrorKind;
+use api::route::browse::BrowseErrorKind;
 use crate::webserver::app_state::AppState;
 use crate::webserver::router::{ApiError, ApiErrorMessage};
 use crate::webserver::router::auth::authenticated_user::AuthenticatedUser;

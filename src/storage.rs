@@ -4,7 +4,7 @@ use std::path::{Path, PathBuf};
 use futures::{Stream, StreamExt};
 use tokio::io::DuplexStream;
 use tokio_util::io::ReaderStream;
-use my_file_cloud_api::id::ID;
+use api::id::ID;
 use zip::write::FileOptions;
 use zip::ZipWriter;
 use crate::model::user::User;

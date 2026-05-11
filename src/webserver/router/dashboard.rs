@@ -1,10 +1,10 @@
-use my_file_cloud_api::route::dashboard::{DashboardErrorKind, DashboardResponse};
+use api::route::dashboard::{DashboardErrorKind, DashboardResponse};
 use std::sync::Arc;
 use axum::extract::State;
 use axum::Router;
 use axum::routing::get;
 use tracing::error;
-use my_file_cloud_api::{ApiErrorMessage};
+use api::{ApiErrorMessage};
 use crate::webserver::app_state::AppState;
 use crate::webserver::router::{ApiError, ApiResponse};
 use crate::webserver::router::auth::authenticated_user::AuthenticatedUser;

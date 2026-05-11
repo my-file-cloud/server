@@ -1,7 +1,7 @@
 use tracing::{error, info};
-use my_file_cloud_server::{storage, webserver, database, env};
-use my_file_cloud_server::log::setup_logging;
-use my_file_cloud_server::webserver::app_state::AppState;
+use server::{storage, webserver, database, env};
+use server::log::setup_logging;
+use server::webserver::app_state::AppState;
 
 #[tokio::main]
 async fn main() {

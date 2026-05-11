@@ -4,7 +4,7 @@ use axum::http::StatusCode;
 use axum::Json;
 use axum::response::IntoResponse;
 use tracing::error;
-use my_file_cloud_api::route::auth::register::{RegisterBody, RegisterErrorKind};
+use api::route::auth::register::{RegisterBody, RegisterErrorKind};
 use crate::database::DatabaseError;
 use crate::model::user::User;
 use crate::util;
